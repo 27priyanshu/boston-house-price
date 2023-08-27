@@ -11,7 +11,7 @@ scalar=pickle.load(open('scaling.pkl', 'rb'))
 
 def prediction_price(CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT):
     
-    prediction= regmodel.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
+    prediction= scalar.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
     print(prediction)
     return prediction
 
@@ -36,7 +36,11 @@ def main ():
     PTRATIO = st.text_input ("PTRATIO", "Type Here")
     B = st.text_input ("B", "Type Here")
     LSTAT = st.text_input ("LSTAT", "Type Here")
-    
+    # if len(X) == 0:
+    #     raise ValueError("The array passed to the `predict()` method must have at least one sample.")
+
+    #     prediction = regmodel.predict(X)
+
 
     
     result=""
