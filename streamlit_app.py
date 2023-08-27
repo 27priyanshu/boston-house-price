@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
 import pandas as pd
-
+import scipy.sparse as sp
 
 import streamlit as st
 
@@ -10,10 +10,13 @@ model=pickle.load(open('model.pkl', 'rb'))
 # scalar=pickle.load(open('scaling.pkl', 'rb'))
 
 def prediction_price(CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT):
+    X = sp.csr_matrix([[CRIM, ZN, INDUS, CHAS, NOX, RM, Age, DIS, RAD, TAX, PTRATIO, B, LSTAT]])
+
+    prediction = model.predict(X)
     
-    prediction= model.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
-    print(prediction)
-    return prediction
+    # prediction= model.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
+    # print(prediction)
+    # return prediction
 
 def main ():
     st.title("Boston house pricing")
