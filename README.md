@@ -10,3 +10,5 @@ Create a New Environment
 ```
 conda create -p venv python==3.7 -y
 ```
+
+<img width="675" alt="image" src="https://github.com/27priyanshu/boston-house-price/assets/95427620/aabb8bc9-8cc5-49d6-9cd0-57067ca9b6fe">
