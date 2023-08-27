@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 import pandas as pd
 
+
 import streamlit as st
 
 ## LOAD THE MODELS
@@ -47,4 +48,4 @@ def main ():
         st.text("Built with Streamlit")
         
 if __name__ == '__main__':
-        main
+        main()
