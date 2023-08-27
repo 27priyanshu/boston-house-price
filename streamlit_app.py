@@ -6,12 +6,12 @@ import pandas as pd
 import streamlit as st
 
 ## LOAD THE MODELS
-# regmodel=pickle.load(open('regmodel.pkl', 'rb'))
-scalar=pickle.load(open('scaling.pkl', 'rb'))
+regmodel=pickle.load(open('regmodel.pkl', 'rb'))
+# scalar=pickle.load(open('scaling.pkl', 'rb'))
 
 def prediction_price(CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT):
     
-    prediction= scalar.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
+    prediction= regmodel.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
     print(prediction)
     return prediction
 
