@@ -1,40 +1,50 @@
-import pickle
-from flask import Flask,request,app,jsonify,url_for,render_template,redirect,flash,session,escape
-# from matplotlib import scalar
 import numpy as np
+import pickle
 import pandas as pd
 
-app=Flask(__name__)
+import streamlit as st
+
 ## LOAD THE MODELS
 regmodel=pickle.load(open('regmodel.pkl', 'rb'))
 scalar=pickle.load(open('scaling.pkl', 'rb'))
 
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-@app.route('/predict_api',methods=['POST'])
-
-def predict_api():
-    data = request.json['data']
-    print(data)
-    print(np.array(list(data.values())).reshape(1,-1))
-    new_data = scalar.transform(np.array(list(data.values())).reshape(1,-1))
-    output = regmodel.predict(new_data)
-    print(output[0])
-    return jsonify(output[0])
-
-
-
-@app.route('/predict',methods=['POST'])
-
-def predict():
-    data = [float(x) for x in request.form.values()]
-    final_input = scalar.transform(np.array(data).reshape(1,-1))
-    print(final_input)
-    output=regmodel.predict(final_input)[0]
-    return render_template("home.html",prediction_text="The House price prediction is {}".format(output))
+def prediction_price(CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT):
     
+    prediction= regmodel.predict([[CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT]])
+    print(prediction)
+    return prediction
+
+def main ():
+    st.title("Boston house pricing")
+    html_temp = """
+    <div style="background-color: tomato; padding:10px">
+    <h2 style="color: white; text-align:center;">Streamlit Boston house Pricing ML App </h2>
+    </div>
+    """
+    st.markdown (html_temp, unsafe_allow_html=True)
+    CRIM = st.text_input ("CRIM","Type Here")
+    ZN = st.text_input("ZN", "Type Here")
+    INDUS = st.text_input ("INDUS","Type Here")
+    CHAS = st.text_input ("CHAS", "Type Here")
+    NOX = st.text_input ("NOX", "Type Here")
+    RM = st.text_input ("RM", "Type Here")
+    Age = st.text_input ("Age", "Type Here")
+    DIS = st.text_input ("DIS", "Type Here")
+    RAD = st.text_input ("RAD", "Type Here")
+    TAX = st.text_input ("TAX", "Type Here")
+    PTRATIO = st.text_input ("PTRATIO", "Type Here")
+    B = st.text_input ("B", "Type Here")
+    LSTAT = st.text_input ("LSTAT", "Type Here")
     
+
+    
+    result=""
+    if st.button("Predict"):
+        result=prediction_price(CRIM,ZN,INDUS,CHAS,NOX,RM,Age,DIS,RAD,TAX,PTRATIO,B,LSTAT)
+    st.success('The Price is {}'.format(result))
+    if st.button("About"):
+        st.text("Lets LEarn")
+        st.text("Built with Streamlit")
+        
 if __name__ == '__main__':
-    app.run
+        main
